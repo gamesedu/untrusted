@@ -189,7 +189,7 @@ function Game(debugMode, startLevel) {
     ];
 
     this._bonusLevels = [
-'01_inTheDesert.jsx','02_theEmptyRoom.jsx','03_theCollapsingRoom.jsx','04_theGuard.jsx','05_theCorridor.jsx','AB_1_ANewJourney.jsx','AB_2_FrozenCave.jsx','AB_3_BoulderMadness.jsx','AB_4_BatAttack.jsx','AB_5_PathOfDoom.jsx','_sampleLevel.jsx','ice.jsx','labryinth.jsx','levelName.jsx','noWayOut.jsx','pushme.jsx','soccer.jsx','threeKeys.jsx','trapped.jsx','wallsWithEyes.jsx'
+'01_inTheDesert.jsx','02_theEmptyRoom.jsx','03_theCollapsingRoom.jsx','04_theGuard.jsx','05_theCorridor.jsx','AB_1_ANewJourney.jsx','AB_2_FrozenCave.jsx','AB_3_BoulderMadness.jsx','AB_4_BatAttack.jsx','AB_5_PathOfDoom.jsx','_sampleLevel.jsx','darkAlley.jsx','ice.jsx','labryinth.jsx','levelName.jsx','noWayOut.jsx','pushme.jsx','soccer.jsx','threeKeys.jsx','trapped.jsx','wallsWithEyes.jsx'
     ].filter(function (lvl) { return (lvl.indexOf('_') != 0); }); // filter out bonus levels that start with '_'
 
 	this._mod = '';
@@ -524,7 +524,9 @@ function Game(debugMode, startLevel) {
             }
 
             // clear drawing canvas and hide it until level loads
-            $('#drawingCanvas')[0].width = $('#drawingCanvas')[0].width;
+            var screenCanvas = $('#screen canvas')[0];
+            $('#drawingCanvas')[0].width = screenCanvas.width;
+            $('#drawingCanvas')[0].height = screenCanvas.height;
             $('#drawingCanvas').hide();
             $('#dummyDom').hide();
 
@@ -2274,9 +2276,10 @@ function Map(display, __game) {
     }, this);
 
     this.getCanvasCoords = wrapExposedMethod(function(obj) {
+        var canvas =  $('#drawingCanvas')[0];
         return {
-            x: (obj.getX() + 0.5) * 600 / __game._dimensions.width,
-            y: (obj.getY() + 0.5) * 500 / __game._dimensions.height
+            x: (obj.getX() + 0.5) * canvas.width / __game._dimensions.width,
+            y: (obj.getY() + 0.5) * canvas.height / __game._dimensions.height
         };
     }, this);
 
@@ -2839,6 +2842,7 @@ function Player(x, y, __map, __game) {
     this.setPhoneCallback = wrapExposedMethod(function(func) {
         this._phoneFunc = func;
     }, this);
+    
 }
 Game.prototype.reference = {
     'canvas.beginPath': {
