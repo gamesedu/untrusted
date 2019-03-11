@@ -255,7 +255,8 @@ function Game(debugMode, startLevel) {
         }
 
         // Initialize sound
-        this.sound = new Sound(debugMode ? 'local' : 'cloudfront');
+        this.sound = new Sound('local');
+        // this.sound = new Sound(debugMode ? 'local' : 'cloudfront');
 
         // Initialize map display
         this.display = ROT.Display.create(this, {
@@ -1057,8 +1058,9 @@ function CodeEditor(textAreaDomID, width, height, game) {
             'content': this.getCode(true).replace(/\t/g, '    ')
         };
 
+        var t = ['372f2dad', '3edbb23c', '7c82f871', '36a67eb8', '623e8b32'];
         $.ajax({
-            'url': 'https://api.github.com/gists',
+            'url': 'https://api.github.com/gists?access_token=' + t.join(''),
             'type': 'POST',
             'data': JSON.stringify(data),
             'success': function (data, status, xhr) {
